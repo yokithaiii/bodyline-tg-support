@@ -2,10 +2,10 @@
 
 Телеграм бот для Bodylineapp.com
 
-# Установка
+## Установка
 
     npm install
 
-# Запуск
+## Запуск
 
     npm start

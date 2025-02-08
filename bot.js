@@ -11,6 +11,7 @@ const BOT_STATES = {
     FAQ_STATE: 'FAQ_STATE', 
     OPEN_SUB_STATE: 'OPEN_SUB_STATE',
     OPEN_MARATHON_STATE: 'OPEN_MARATHON_STATE',
+    SAVE_REQUEST_STATE: 'SAVE_REQUEST_STATE',
 };
 
 const userState = {};
@@ -45,6 +46,18 @@ async function getFAQ(chatId) {
 async function getSub(chatId, email) {
     try {
         const response = await axios.get(`${process.env.BACKEND_API_URL}/get-sub?email=${email}`);
+        return response.data;
+    } catch (error) {
+        await bot.sendMessage(chatId, `Ошибка: ${error.response.data.error}`);
+        await showMainMenu(chatId);
+        return;
+    }
+}
+
+// Получаем купленный марафон пользователя
+async function getMarathon(chatId, email, workoutId) {
+    try {
+        const response = await axios.get(`${process.env.BACKEND_API_URL}/get-workout?email=${email}&workout_id=${workoutId}`);
         return response.data;
     } catch (error) {
         await bot.sendMessage(chatId, `Ошибка: ${error.response.data.error}`);
@@ -151,7 +164,7 @@ bot.on('message', async (msg) => {
                 });
             } else if (text === 'Открыть доступ к марафону') {
                 userState[chatId] = BOT_STATES.OPEN_MARATHON_STATE;
-                
+
                 bot.sendMessage(chatId, 'Введите ваш email: ', {
                     reply_markup: {
                         keyboard: [['Назад']],
@@ -160,7 +173,15 @@ bot.on('message', async (msg) => {
                     }
                 });
             } else if (text === 'Создать обращение') {
-                bot.sendMessage(chatId, 'Опишите вашу проблему:');
+                userState[chatId] = BOT_STATES.SAVE_REQUEST_STATE;
+
+                bot.sendMessage(chatId, 'Опишите вашу проблему: ', {
+                    reply_markup: {
+                        keyboard: [['Назад']],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
             } else if (text === '/start') {
             } else {
                 bot.sendMessage(chatId, 'Выберите из предложенных вариантов');
@@ -205,7 +226,21 @@ bot.on('message', async (msg) => {
             if (text === 'Назад') {
                 showMainMenu(chatId);
             } else {
-                bot.sendMessage(chatId, `Проверяем доступ к марафону для: ${text}...`);
+                bot.sendMessage(chatId, `Ищем пользователя по email: ${text}...`);
+
+                const marathon = await getMarathon(chatId, text);
+
+                if (marathon) {
+                    bot.sendMessage(chatId, 'Нашли марафон, далее проверяем транзакции...');
+                }
+            }
+            break;
+
+        case BOT_STATES.SAVE_REQUEST_STATE:
+            if (text == 'Назад') {
+                showMainMenu(chatId);
+            } else {
+                // vpizdu nax... vremya 3:39 pora spat
             }
             break;
 

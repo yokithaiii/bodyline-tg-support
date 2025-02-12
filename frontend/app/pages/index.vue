@@ -17,10 +17,9 @@ const drawerContent = useState<{ isOpen: boolean; data: any }>('drawer-content',
 			<div class="l-wrapper">
 				<div class="py-4">
 					<h1 class="text-3xl">
-						Здравствуйте
-						<span class="text-emerald-400">!</span>
-						Чем мы можем вам помочь
-						<span class="text-emerald-400">?</span>
+						Здравствуйте<span class="text-emerald-400">!</span>
+						<br />
+						Чем мы можем вам помочь<span class="text-emerald-400">?</span>
 					</h1>
 
 					<main-buttons />
@@ -28,7 +27,7 @@ const drawerContent = useState<{ isOpen: boolean; data: any }>('drawer-content',
 			</div>
 		</div>
 
-		<UDrawer v-model:open="drawerContent.isOpen" should-scale-background>
+		<UDrawer v-model:open="drawerContent.isOpen">
 			<template #content>
 				<article class="my-4 h-screen overflow-y-auto">
 					<main class="py-4">

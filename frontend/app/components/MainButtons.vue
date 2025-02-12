@@ -8,7 +8,6 @@ const drawerContent = useState<{ isOpen: boolean; data: string }>('drawer-conten
 // const selectedProduct = ref<IProduct | null>(null);
 
 const openCardDetail = (data: string) => {
-	console.dir(sizes.isMobile);
 	if (sizes.isMobile) {
 		drawerContent.value.data = 'dsadas';
 		drawerContent.value.isOpen = true;
@@ -23,7 +22,6 @@ const openCardDetail = (data: string) => {
 
 <template>
 	<section class="l-buttons grid grid-cols-2 gap-1 mt-4">
-		<pre>{{ sizes.isMobile }}</pre>
 		<UButton @click="openCardDetail('dsa')">Доступ к приложению 📱</UButton>
 		<UButton @click="openCardDetail('dsa')">Доступ к марафону 🏆</UButton>
 		<UButton @click="openCardDetail('dsa')">Популярные вопросы ⁉️</UButton>

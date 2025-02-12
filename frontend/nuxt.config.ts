@@ -17,8 +17,10 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 	runtimeConfig: {
-		apiUrl: process.env.BACKEND_API_URL,
-		twaToken: process.env.TELEGRAM_BOT_TOKEN,
+		public: {
+			twaToken: process.env.TELEGRAM_BOT_TOKEN,
+			apiUrl: process.env.BACKEND_API_URL,
+		},
 	},
 	app: {
 		rootTag: 'main',

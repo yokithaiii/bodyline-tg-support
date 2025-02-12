@@ -3,10 +3,10 @@
 // 	redirect: '/category/all',
 // });
 
-const drawerContent = useState<{ isOpen: boolean; data: any }>('drawer-content', () => {
+const drawerContent = useState<{ isOpen: boolean; state: string | null }>('drawer-content', () => {
 	return {
 		isOpen: false,
-		data: null,
+		state: null,
 	};
 });
 </script>
@@ -32,9 +32,7 @@ const drawerContent = useState<{ isOpen: boolean; data: any }>('drawer-content',
 				<article class="my-4 h-screen overflow-y-auto">
 					<main class="py-4">
 						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, perferendis nihil soluta aliquam
-							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
-							Possimus, officia perspiciatis.
+							{{ drawerContent.state }}
 						</p>
 					</main>
 				</article>

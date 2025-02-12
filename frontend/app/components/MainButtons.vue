@@ -1,29 +1,17 @@
 <script setup lang="ts">
-const sizes = useScreenSize();
-const modal = useModal();
+const drawerContent = useState<{ isOpen: boolean; state: string | null }>('drawer-content');
 
-const resolveModalContent = defineAsyncComponent(() => import('~/components/product/ModalContent.vue'));
-
-const drawerContent = useState<{ isOpen: boolean; data: string }>('drawer-content');
-
-const openCardDetail = (data: string) => {
-	if (sizes.isMobile) {
-		drawerContent.value.data = data;
-		drawerContent.value.isOpen = true;
-	} else {
-		// selectedProduct.value = product;
-		modal.open(resolveModalContent, {
-			data: data,
-		});
-	}
+const openCardDetail = (state: string) => {
+	drawerContent.value.state = state;
+	drawerContent.value.isOpen = true;
 };
 </script>
 
 <template>
 	<section class="l-buttons grid grid-cols-2 gap-1 mt-4">
-		<UButton @click="openCardDetail('dsa')">Доступ к приложению 📱</UButton>
-		<UButton @click="openCardDetail('dsa')">Доступ к марафону 🏆</UButton>
-		<UButton @click="openCardDetail('dsa')">Популярные вопросы ⁉️</UButton>
-		<UButton @click="openCardDetail('dsa')">Задать вопрос 📝</UButton>
+		<UButton @click="openCardDetail('access')">Доступ к приложению 📱</UButton>
+		<UButton @click="openCardDetail('marathon')">Доступ к марафону 🏆</UButton>
+		<UButton @click="openCardDetail('qa')">Популярные вопросы ⁉️</UButton>
+		<UButton @click="openCardDetail('ask')">Задать вопрос 📝</UButton>
 	</section>
 </template>

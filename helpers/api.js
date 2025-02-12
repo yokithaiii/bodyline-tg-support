@@ -32,10 +32,23 @@ async function getSub(ctx) {
     }
 }
 
-async function getMarathon(ctx) {
+async function getMarathon() {
+    try {
+        const response = await axios.get(`${process.env.BACKEND_API_URL}/get-workouts`);
+        return response.data;
+    } catch (error) {
+        throw new Error(errorHandler(error));
+    }
+}
+
+async function unlockMarathon(ctx, workoutID) {
     await ctx.reply('✅ Ищем Ваш аккаунт...');
     try {
-        const response = await axios.get(`${process.env.BACKEND_API_URL}/get-workout?email=${ctx.message.text}`);
+        const response = await axios.post(`${process.env.BACKEND_API_URL}/unlock-workout`, {
+            email: ctx.scene.state.email,
+            workout_id: workoutID,
+        });
+        console.log(response.data)
         return response.data;
     } catch (error) {
         throw new Error(errorHandler(error));
@@ -47,4 +60,5 @@ module.exports = {
     saveRequest,
     getSub,
     getMarathon,
+    unlockMarathon
 };

@@ -1,28 +1,63 @@
 const { Scenes } = require('telegraf');
-const { getMarathon } = require('../helpers/api');
+const { getMarathon, unlockMarathon } = require('../helpers/api');
 const { mainKeyboard, backKeyboard } = require('../helpers/keyboards');
-const { validateEmail } = require('../helpers/validators')
+const { validateEmail } = require('../helpers/validators');
 
 const createRequestScene = new Scenes.BaseScene('UNLOCK_MARATHON_SCENE')
-    .enter(ctx => ctx.reply('Для поиска вашего аккаунта напишите ваш email: 🔎', backKeyboard))
+    .enter(async (ctx) => {
+        try {
+            await ctx.reply('✅ Ищем марафоны...');
+            const workouts = await getMarathon();
+            const buttons = workouts.map(item => [item.title]);
+            buttons.push(['Назад']);
+            
+            return await ctx.reply('Выберите марафон, который хотите открыть:', {
+                reply_markup: {
+                    keyboard: buttons,
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
+        } catch (error) {
+            await ctx.reply(`❌ ${error.message}`);
+            ctx.scene.leave();
+        }
+    })
     .on('text', async (ctx) => {
         if (ctx.message.text === 'Назад') {
             ctx.scene.leave();
             return ctx.reply('Выберите действие:', mainKeyboard);
         }
 
-        if (!validateEmail(ctx.message.text)) {
-            return ctx.reply(`❌ Вы ввели некорректный email`);
+        if (!ctx.scene.state.marathonTitle) {
+            const workouts = await getMarathon();
+            const selected = workouts.find(item => item.title === ctx.message.text);
+
+            if (!selected) {
+                return ctx.reply(`❌ Выберите из нижеперечисленных вариантов`);
+            }
+
+            ctx.scene.state.marathonTitle = selected.title;
+            return ctx.reply('Для поиска вашего аккаунта напишите ваш email: 🔎', backKeyboard);
         }
 
-        try {
-            await getMarathon(ctx);
-        } catch (error) {
-            await ctx.reply(`❌ Ошибка: ${error.message}`);
+        if (!ctx.scene.state.email) {
+            if (!validateEmail(ctx.message.text)) {
+                return ctx.reply(`❌ Вы ввели некорректный email`);
+            }
+
+            ctx.scene.state.email = ctx.message.text;
+
+            try {
+                await unlockMarathon(ctx, ctx.scene.state.marathonTitle);
+                await ctx.reply('✅ Открываем доступ, ждите!');
+            } catch (error) {
+                await ctx.reply(`❌ Ошибка: ${error.message}`);
+            }
+
+            ctx.scene.leave();
+            return ctx.reply('Выберите действие:', mainKeyboard);
         }
-        
-        ctx.scene.leave();
-        return ctx.reply('Выберите действие:', mainKeyboard);
     });
 
 module.exports = createRequestScene;

@@ -1,14 +1,5 @@
 <script setup lang="ts">
-// definePageMeta({
-// 	redirect: '/category/all',
-// });
-
-const drawerContent = useState<{ isOpen: boolean; state: string | null }>('drawer-content', () => {
-	return {
-		isOpen: false,
-		state: null,
-	};
-});
+const drawerContent = useDrawer();
 </script>
 
 <template>
@@ -30,11 +21,15 @@ const drawerContent = useState<{ isOpen: boolean; state: string | null }>('drawe
 		<UDrawer v-model:open="drawerContent.isOpen">
 			<template #content>
 				<article class="my-4 h-screen overflow-y-auto">
-					<main class="py-4">
-						<p>
-							{{ drawerContent.state }}
-						</p>
-					</main>
+					<div class="py-4">
+						<template v-if="drawerContent.state === 'access'"> dsadsa </template>
+
+						<template v-else-if="drawerContent.state === 'marathon'"> marathon </template>
+
+						<template v-else-if="drawerContent.state === 'qa'"> qa </template>
+
+						<template v-else-if="drawerContent.state === 'ask'"> ask </template>
+					</div>
 				</article>
 			</template>
 		</UDrawer>

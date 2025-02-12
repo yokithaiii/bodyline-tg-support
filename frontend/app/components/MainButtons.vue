@@ -1,16 +1,27 @@
 <script setup lang="ts">
-const drawerContent = useState<{ isOpen: boolean; state: string | null }>('drawer-content');
+import { BodyModalEmail } from '#components';
 
-const openCardDetail = (state: string) => {
+const store = useStore();
+const modal = useModal();
+const drawerContent = useDrawer();
+
+const openCardDetail = (state: string, shouldOpenModal = false) => {
 	drawerContent.value.state = state;
-	drawerContent.value.isOpen = true;
+
+	if (shouldOpenModal && !store.value.email) {
+		modal.open(BodyModalEmail, {
+			title: 'Поиск аккаунта',
+		});
+	} else {
+		drawerContent.value.isOpen = true;
+	}
 };
 </script>
 
 <template>
 	<section class="l-buttons grid grid-cols-2 gap-1 mt-4">
-		<UButton @click="openCardDetail('access')">Доступ к приложению 📱</UButton>
-		<UButton @click="openCardDetail('marathon')">Доступ к марафону 🏆</UButton>
+		<UButton @click="openCardDetail('access', true)">Доступ к приложению 📱</UButton>
+		<UButton @click="openCardDetail('marathon', true)">Доступ к марафону 🏆</UButton>
 		<UButton @click="openCardDetail('qa')">Популярные вопросы ⁉️</UButton>
 		<UButton @click="openCardDetail('ask')">Задать вопрос 📝</UButton>
 	</section>

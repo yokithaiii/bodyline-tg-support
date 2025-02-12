@@ -28,6 +28,7 @@ const openModalEmail = () => {
 							<span class="text-emerald-400" @click="openModalEmail">
 								{{ useStore().value.email }}
 							</span>
+							- тыкните чтобы изменить
 						</span>
 					</div>
 
@@ -38,16 +39,16 @@ const openModalEmail = () => {
 
 		<UDrawer v-model:open="drawerContent.isOpen">
 			<template #content>
-				<article class="my-4 h-screen overflow-y-auto">
-					<div class="py-4">
-						<template v-if="drawerContent.state === 'access'"> dsadsa </template>
+				<article class="my-4 px-2 h-screen overflow-y-auto">
+					<template v-if="drawerContent.state === 'access'"> dsadsa </template>
 
-						<template v-else-if="drawerContent.state === 'marathon'"> marathon </template>
+					<template v-else-if="drawerContent.state === 'marathon'"> marathon </template>
 
-						<template v-else-if="drawerContent.state === 'qa'"> qa </template>
+					<template v-else-if="drawerContent.state === 'qa'"> qa </template>
 
-						<template v-else-if="drawerContent.state === 'ask'"> ask </template>
-					</div>
+					<template v-else-if="drawerContent.state === 'ask'">
+						<action-request-question />
+					</template>
 				</article>
 			</template>
 		</UDrawer>

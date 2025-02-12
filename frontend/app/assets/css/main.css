@@ -2,7 +2,7 @@
 @import '@nuxt/ui';
 
 @theme {
-	--font-sans: 'SF Pro Display', sans-serif;
+	--font-sans: 'Rubik', sans-serif;
 
 	--breakpoint-3xl: 1920px;
 
@@ -65,7 +65,7 @@
 		max-width: 768px;
 		margin: 0 auto;
 		width: 100%;
-		padding: 0 12px;
+		padding: 0 8px;
 	}
 
 	@media (width >= 40rem) {

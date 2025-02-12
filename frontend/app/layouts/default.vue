@@ -18,6 +18,7 @@
 	flex-direction: column;
 	min-height: 100vh;
 	margin-bottom: 64px;
+	padding: 0 4px;
 }
 
 .content {

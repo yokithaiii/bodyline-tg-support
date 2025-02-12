@@ -17,6 +17,10 @@ export default function () {
 
 	onMounted(() => {
 		window.addEventListener('resize', useDebounce(browserResized, 300));
+		callOnce(() => {
+			console.dir('call once work');
+			browserResized();
+		});
 	});
 
 	onUnmounted(() => {

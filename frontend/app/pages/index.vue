@@ -2,6 +2,13 @@
 // definePageMeta({
 // 	redirect: '/category/all',
 // });
+
+const drawerContent = useState<{ isOpen: boolean; data: any }>('drawer-content', () => {
+	return {
+		isOpen: false,
+		data: null,
+	};
+});
 </script>
 
 <template>
@@ -10,19 +17,29 @@
 			<div class="l-wrapper">
 				<div class="py-4">
 					<h1 class="text-3xl">
-						Здравствуйте<span class="text-emerald-400">!</span>
-						Чем мы можем вам помочь<span class="text-emerald-400">?</span>
+						Здравствуйте
+						<span class="text-emerald-400">!</span>
+						Чем мы можем вам помочь
+						<span class="text-emerald-400">?</span>
 					</h1>
 
-					<section class="l-buttons grid grid-cols-2 gap-1 mt-4">
-						<UButton>Доступ к приложению 📱</UButton>
-						<UButton>Доступ к марафону 🏆</UButton>
-						<UButton>Популярные вопросы ⁉️</UButton>
-						<UButton>Задать вопрос 📝</UButton>
-					</section>
+					<main-buttons />
 				</div>
 			</div>
 		</div>
-		<div class="l-wrapper">dsa</div>
+
+		<UDrawer v-model:open="drawerContent.isOpen" should-scale-background>
+			<template #content>
+				<article class="my-4 h-screen overflow-y-auto">
+					<main class="py-4">
+						<p>
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, perferendis nihil soluta aliquam
+							distinctio deleniti ullam. Quisquam dicta nostrum tempore cupiditate totam minima quis illum ad veniam!
+							Possimus, officia perspiciatis.
+						</p>
+					</main>
+				</article>
+			</template>
+		</UDrawer>
 	</section>
 </template>

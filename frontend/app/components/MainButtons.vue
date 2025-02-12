@@ -23,6 +23,6 @@ const openCardDetail = (state: string, shouldOpenModal = false) => {
 		<UButton @click="openCardDetail('access', true)">Доступ к приложению 📱</UButton>
 		<UButton @click="openCardDetail('marathon', true)">Доступ к марафону 🏆</UButton>
 		<UButton @click="openCardDetail('qa')">Популярные вопросы ⁉️</UButton>
-		<UButton @click="openCardDetail('ask')">Задать вопрос 📝</UButton>
+		<UButton @click="openCardDetail('ask', true)">Задать вопрос 📝</UButton>
 	</section>
 </template>

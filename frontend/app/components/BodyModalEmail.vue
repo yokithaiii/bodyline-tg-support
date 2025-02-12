@@ -1,16 +1,16 @@
 <script setup lang="ts">
-// const modal = useModal();
+const modal = useModal();
 const store = useStore();
-// const drawerContent = useDrawer();
+const drawerContent = useDrawer();
 
-const props = defineProps<{
-	title: string;
-}>();
+const props = withDefaults(defineProps<{ title: string; descr?: string }>(), {
+	descr: 'Для начала напишите ваш email:',
+});
 
 const emailState = reactive({
 	email: '',
 	loading: false,
-	isError: false,
+	errorText: null as null | string,
 });
 
 const isNotValidEmail = ref(false);
@@ -24,13 +24,17 @@ const handleEmail = async () => {
 	if (emailRegex.test(email)) {
 		store.value.email = email;
 
-		await getSub();
-		// await modal.close();
-		// drawerContent.value.isOpen = true;
-		// store.value.isValidateEmail = true;
+		if (drawerContent.value.state === 'access') {
+			await getSub();
+		} else if (drawerContent.value.state === 'ask') {
+			await modal.close();
+
+			setTimeout(() => {
+				drawerContent.value.isOpen = true;
+			}, 500);
+		}
 	} else {
 		isNotValidEmail.value = true;
-		// store.value.isValidateEmail = false;
 	}
 };
 
@@ -44,9 +48,11 @@ const getSub = async () => {
 		});
 
 		console.dir(res);
-	} catch (err) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (err: any) {
+		emailState.errorText = null;
 		console.error(err);
-		emailState.isError = true;
+		emailState.errorText = err.data.error;
 	} finally {
 		emailState.loading = false;
 	}
@@ -74,13 +80,8 @@ const getSub = async () => {
 		<template #body>
 			<article>
 				<header>
-					<span>Для поиска вашего аккаунта напишите ваш email: </span>
+					<span>{{ props.descr }} </span>
 				</header>
-				<pre>{{ useApi() }}</pre>
-				<pre>{{ useRuntimeConfig().public.test }}</pre>
-				<pre>{{ useRuntimeConfig().public }}</pre>
-				<pre>{{ useRuntimeConfig() }}</pre>
-				<!-- <pre>{{ useAppConfig() }}</pre> -->
 
 				<main class="py-4">
 					<template v-if="emailState.loading">
@@ -89,15 +90,16 @@ const getSub = async () => {
 						</div>
 					</template>
 
-					<template v-else-if="emailState.isError"> error </template>
+					<template v-else-if="emailState.errorText !== null">
+						<span class="text-red-400">{{ emailState.errorText }}</span>
+						<UButton class="mt-2 block" @click="emailState.errorText = null">Попробовать еще</UButton>
+					</template>
 
 					<template v-else>
-						<div>
-							<UInput v-model="emailState.email" placeholder="Введите ваш email" class="w-full flex" />
-							<span v-if="isNotValidEmail" class="text-red-400 text-[12px]"> Некорректный email</span>
-						</div>
+						<UInput v-model="emailState.email" placeholder="Введите ваш email" class="w-full flex" />
+						<span v-if="isNotValidEmail" class="text-red-400 text-[12px]"> Некорректный email</span>
 
-						<UButton class="mt-2" @click="handleEmail">Поиск</UButton>
+						<UButton class="mt-2 block" @click="handleEmail">Поиск</UButton>
 					</template>
 				</main>
 			</article>

@@ -16,8 +16,6 @@ const isDark = computed({
 function openSlideover() {
 	slideover.open(SlideOver, { title: 'Полезные ссылки' });
 }
-
-const store = useStore();
 </script>
 
 <template>
@@ -27,7 +25,6 @@ const store = useStore();
 				<nuxt-link to="/">
 					<span>Поддержка Bodyline 💪</span>
 				</nuxt-link>
-				<pre>{{ store.email }}</pre>
 
 				<div class="flex items-center gap-1">
 					<UButton :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'" color="primary" variant="ghost" @click="isDark = !isDark" />

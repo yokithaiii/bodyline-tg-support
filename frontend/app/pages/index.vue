@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { BodyModalEmail } from '#components';
+
 const drawerContent = useDrawer();
+
+const openModalEmail = () => {
+	useModal().open(BodyModalEmail, {
+		title: 'Смена почты',
+		descr: ' Укажите новую почту:',
+	});
+};
 </script>
 
 <template>
@@ -12,6 +21,15 @@ const drawerContent = useDrawer();
 						<br />
 						Чем мы можем вам помочь<span class="text-emerald-400">?</span>
 					</h1>
+
+					<div v-if="useStore().value.email" class="mt-2">
+						<span class="text-[14px]"
+							>Указанная почта:
+							<span class="text-emerald-400" @click="openModalEmail">
+								{{ useStore().value.email }}
+							</span>
+						</span>
+					</div>
 
 					<main-buttons />
 				</div>

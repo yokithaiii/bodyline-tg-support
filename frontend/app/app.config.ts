@@ -14,5 +14,11 @@ export default defineAppConfig({
 				},
 			},
 		},
+
+		slideover: {
+			slots: {
+				overlay: '!pointer-events-none',
+			},
+		},
 	},
 });

@@ -45,9 +45,12 @@ const refresh = () => {
 	getFaq();
 };
 
-const openFaqDetail = (item: IListFaq) => {
-	slideover.data = item;
+const openFaqDetail = async (item: IListFaq) => {
+	slideover.data = null;
 	slideover.isOpen = true;
+	setTimeout(() => {
+		slideover.data = item;
+	}, 1000);
 };
 </script>
 
@@ -77,21 +80,28 @@ const openFaqDetail = (item: IListFaq) => {
 			</template>
 		</div>
 
-		<USlideover v-model:open="slideover.isOpen" title="Ответ" :dismissible="false">
+		<USlideover v-model:open="slideover.isOpen" title="Ответ">
 			<template #body>
-				<p>{{ slideover.data?.answer }}</p>
-
-				<nuxt-img
-					v-if="slideover.data?.image_url"
-					:src="slideover.data?.image_url || ''"
-					class="block mt-2 rounded-[10px]"
-					loading="lazy"
-				/>
-
-				<div v-if="slideover.data?.video_url" class="mt-3">
-					<nuxt-link :href="slideover.data?.video_url" class="text-amber-400" external>Ссылка на видео</nuxt-link>
-					<video :src="slideover.data?.video_url || ''" controls class="block w-full mt-2 rounded-[10px]" />
+				<div v-if="slideover.data === null" class="w-full flex justify-center">
+					<div class="spinner" />
 				</div>
+				<template v-else>
+					<p>{{ slideover.data?.answer }}</p>
+
+					<nuxt-img
+						v-if="slideover.data?.image_url"
+						:src="slideover.data?.image_url || ''"
+						class="block mt-2 rounded-[10px]"
+						loading="lazy"
+					/>
+
+					<div v-if="slideover.data?.video_url" class="mt-3">
+						<nuxt-link :href="slideover.data?.video_url" class="text-amber-400" target="_blank" external
+							>Ссылка на видео</nuxt-link
+						>
+						<video :src="slideover.data?.video_url || ''" controls class="block w-full mt-2 rounded-[10px]" />
+					</div>
+				</template>
 			</template>
 		</USlideover>
 	</div>

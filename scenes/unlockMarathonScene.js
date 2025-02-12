@@ -1,18 +1,22 @@
 const { Scenes } = require('telegraf');
 const { getMarathon } = require('../helpers/api');
 const { mainKeyboard, backKeyboard } = require('../helpers/keyboards');
+const { validateEmail } = require('../helpers/validators')
 
 const createRequestScene = new Scenes.BaseScene('UNLOCK_MARATHON_SCENE')
-    .enter(ctx => ctx.reply('Для начала напишите ваш email:', backKeyboard))
+    .enter(ctx => ctx.reply('Для поиска вашего аккаунта напишите ваш email: 🔎', backKeyboard))
     .on('text', async (ctx) => {
         if (ctx.message.text === 'Назад') {
             ctx.scene.leave();
             return ctx.reply('Выберите действие:', mainKeyboard);
         }
 
+        if (!validateEmail(ctx.message.text)) {
+            return ctx.reply(`❌ Вы ввели некорректный email`);
+        }
+
         try {
-            await getMarathon(ctx.scene.state.email);
-            await ctx.reply('✅ Ваше обращение успешно сохранено!');
+            await getMarathon(ctx);
         } catch (error) {
             await ctx.reply(`❌ Ошибка: ${error.message}`);
         }

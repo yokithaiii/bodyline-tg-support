@@ -35,7 +35,18 @@ const faqScene = new Scenes.BaseScene('FAQ_SCENE')
             buttons.push(['Назад']);
             
             if (selected) {
-                await ctx.reply(selected.answer);
+                
+                if (selected.image_url != null) {
+                    await ctx.replyWithPhoto({url: selected.image_url}, {caption: selected.answer})
+                    await ctx.repl
+                } else {
+                    await ctx.reply(selected.answer);
+                }
+
+                if (selected.video_url !== null || selected.video_url != '') {
+                    await ctx.replyWithHTML(`<b><a href='${selected.video_url}'>Ссылка на видео</a></b>`)
+                }
+
                 return await ctx.reply('Есть ещё вопросы?', {
                     reply_markup: {
                         keyboard: buttons,
@@ -45,7 +56,7 @@ const faqScene = new Scenes.BaseScene('FAQ_SCENE')
                 });
             }
             
-            return await ctx.reply('❌ Вопрос не найден, выберите из списка', {
+            return await ctx.reply('❌ Вопрос не найден, выберите из списка или задайте вопрос', {
                 reply_markup: {
                     keyboard: buttons,
                     resize_keyboard: true,

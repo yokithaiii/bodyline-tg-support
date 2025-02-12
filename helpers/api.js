@@ -41,12 +41,12 @@ async function getMarathon() {
     }
 }
 
-async function unlockMarathon(ctx, workoutID) {
+async function unlockMarathon(ctx, workoutTitle) {
     await ctx.reply('✅ Ищем Ваш аккаунт...');
     try {
         const response = await axios.post(`${process.env.BACKEND_API_URL}/unlock-workout`, {
             email: ctx.scene.state.email,
-            workout_id: workoutID,
+            workout_title: workoutTitle,
         });
         console.log(response.data)
         return response.data;

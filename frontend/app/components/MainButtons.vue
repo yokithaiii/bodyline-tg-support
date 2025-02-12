@@ -5,11 +5,10 @@ const modal = useModal();
 const resolveModalContent = defineAsyncComponent(() => import('~/components/product/ModalContent.vue'));
 
 const drawerContent = useState<{ isOpen: boolean; data: string }>('drawer-content');
-// const selectedProduct = ref<IProduct | null>(null);
 
 const openCardDetail = (data: string) => {
 	if (sizes.isMobile) {
-		drawerContent.value.data = 'dsadas';
+		drawerContent.value.data = data;
 		drawerContent.value.isOpen = true;
 	} else {
 		// selectedProduct.value = product;

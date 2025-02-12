@@ -48,7 +48,6 @@ async function unlockMarathon(ctx, workoutTitle) {
             email: ctx.scene.state.email,
             workout_title: workoutTitle,
         });
-        console.log(response.data)
         return response.data;
     } catch (error) {
         throw new Error(errorHandler(error));

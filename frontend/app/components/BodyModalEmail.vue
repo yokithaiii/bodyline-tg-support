@@ -7,7 +7,7 @@ const props = withDefaults(defineProps<{ title: string; descr?: string }>(), {
 	descr: 'Для начала напишите ваш email:',
 });
 
-const emailState = reactive({
+const states = reactive({
 	email: '',
 	loading: false,
 	errorText: null as null | string,
@@ -17,7 +17,7 @@ const isNotValidEmail = ref(false);
 
 const handleEmail = async () => {
 	isNotValidEmail.value = false;
-	const email = emailState.email.trim();
+	const email = states.email.trim();
 
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -39,22 +39,22 @@ const handleEmail = async () => {
 };
 
 const getSub = async () => {
-	emailState.loading = true;
+	states.loading = true;
 	try {
 		const res = await $fetch(useApi() + '/get-sub', {
 			query: {
-				email: emailState.email,
+				email: states.email,
 			},
 		});
 
 		console.dir(res);
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (err: any) {
-		emailState.errorText = null;
+		states.errorText = null;
 		console.error(err);
-		emailState.errorText = err.data.error;
+		states.errorText = err.data.error || 'Что - то пошло не так, попробуйте еще';
 	} finally {
-		emailState.loading = false;
+		states.loading = false;
 	}
 };
 </script>
@@ -74,19 +74,19 @@ const getSub = async () => {
 				</header>
 
 				<main class="py-4">
-					<template v-if="emailState.loading">
+					<template v-if="states.loading">
 						<div class="w-full flex justify-center">
 							<div class="spinner" />
 						</div>
 					</template>
 
-					<template v-else-if="emailState.errorText !== null">
-						<span class="text-red-400">{{ emailState.errorText }}</span>
-						<UButton class="mt-2 block" @click="emailState.errorText = null">Попробовать еще</UButton>
+					<template v-else-if="states.errorText !== null">
+						<span class="text-red-400">{{ states.errorText }}</span>
+						<UButton class="mt-2 block" @click="states.errorText = null">Попробовать еще</UButton>
 					</template>
 
 					<template v-else>
-						<UInput v-model="emailState.email" placeholder="Введите ваш email" class="w-full flex" />
+						<UInput v-model="states.email" placeholder="Введите ваш email" class="w-full flex" />
 						<span v-if="isNotValidEmail" class="text-red-400 text-[12px]"> Некорректный email</span>
 
 						<UButton class="mt-2 block" @click="handleEmail">Поиск</UButton>

@@ -44,7 +44,9 @@ const openModalEmail = () => {
 
 					<template v-else-if="drawerContent.state === 'marathon'"> marathon </template>
 
-					<template v-else-if="drawerContent.state === 'qa'"> qa </template>
+					<template v-else-if="drawerContent.state === 'qa'">
+						<action-get-faq />
+					</template>
 
 					<template v-else-if="drawerContent.state === 'ask'">
 						<action-request-question />

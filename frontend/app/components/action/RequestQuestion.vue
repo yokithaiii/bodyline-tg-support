@@ -26,7 +26,7 @@ const sendReq = async () => {
 	} catch (err: any) {
 		states.errorText = null;
 		console.error(err);
-		states.errorText = err.data.error;
+		states.errorText = err.data.error || 'Что - то пошло не так, попробуйте еще';
 	} finally {
 		states.loading = false;
 	}

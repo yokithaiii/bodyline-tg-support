@@ -2,6 +2,9 @@
 	<div class="loader"></div>
 </section>
 <style>
+	html.light .parent-loader {
+		background-color: oklch(0.967 0.001 286.375);
+	}
 	.parent-loader {
 		position: fixed;
 		inset: 0;
@@ -10,7 +13,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: oklch(0.21 0.006 285.885);
+		/* background-color: oklch(0.21 0.006 285.885); */
+		background-color: #0f0f0f;
 		box-sizing: border-box;
 		padding: 0;
 		margin: 0;

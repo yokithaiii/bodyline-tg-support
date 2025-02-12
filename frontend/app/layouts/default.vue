@@ -8,7 +8,7 @@
 			<slot />
 		</main>
 
-		<cart-footer-button />
+		<!-- <cart-footer-button /> -->
 	</section>
 </template>
 

@@ -52,7 +52,9 @@ const openModalEmail = () => {
 						<action-get-access />
 					</template>
 
-					<template v-else-if="drawerContent.state === 'marathon'"> marathon </template>
+					<template v-else-if="drawerContent.state === 'marathon'">
+						<action-get-marathon />
+					</template>
 
 					<template v-else-if="drawerContent.state === 'qa'">
 						<action-get-faq />

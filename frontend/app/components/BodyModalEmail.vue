@@ -25,7 +25,7 @@ const handleEmail = async () => {
 	if (emailRegex.test(email)) {
 		store.value.email = email;
 
-		if (drawerContent.value.state === 'access' || drawerContent.value.state === 'ask') {
+		if (drawerContent.value.state === 'access' || drawerContent.value.state === 'ask' || drawerContent.value.state === 'marathon') {
 			await modal.close();
 
 			setTimeout(() => {
@@ -35,6 +35,11 @@ const handleEmail = async () => {
 	} else {
 		isNotValidEmail.value = true;
 	}
+};
+
+const handleAcceptChange = () => {
+	store.value.email = states.email.trim();
+	modal.close();
 };
 </script>
 
@@ -68,7 +73,7 @@ const handleEmail = async () => {
 						<UInput v-model="states.email" placeholder="Введите ваш email" class="w-full flex" />
 						<span v-if="isNotValidEmail" class="text-red-400 text-[12px]"> Некорректный email</span>
 
-						<UButton v-if="props.state === 'email'" class="mt-2 block" @click="modal.close()">Принять</UButton>
+						<UButton v-if="props.state === 'email'" class="mt-2 block" @click="handleAcceptChange">Принять</UButton>
 						<UButton v-else class="mt-2 block" @click="handleEmail">Поиск</UButton>
 					</template>
 				</main>

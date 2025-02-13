@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 	app: {
 		rootTag: 'main',
 		head: {
-			title: 'TWA nuxt4',
+			title: 'TMA bodyline support',
 			script: [
 				{
 					src: 'https://telegram.org/js/telegram-web-app.js',

@@ -3,8 +3,9 @@ const modal = useModal();
 const store = useStore();
 const drawerContent = useDrawer();
 
-const props = withDefaults(defineProps<{ title: string; descr?: string }>(), {
+const props = withDefaults(defineProps<{ title: string; descr?: string; state?: string }>(), {
 	descr: 'Для начала напишите ваш email:',
+	state: 'base',
 });
 
 const states = reactive({
@@ -24,9 +25,7 @@ const handleEmail = async () => {
 	if (emailRegex.test(email)) {
 		store.value.email = email;
 
-		if (drawerContent.value.state === 'access') {
-			await getSub();
-		} else if (drawerContent.value.state === 'ask') {
+		if (drawerContent.value.state === 'access' || drawerContent.value.state === 'ask') {
 			await modal.close();
 
 			setTimeout(() => {
@@ -35,26 +34,6 @@ const handleEmail = async () => {
 		}
 	} else {
 		isNotValidEmail.value = true;
-	}
-};
-
-const getSub = async () => {
-	states.loading = true;
-	try {
-		const res = await $fetch(useApi() + '/get-sub', {
-			query: {
-				email: states.email,
-			},
-		});
-
-		console.dir(res);
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (err: any) {
-		states.errorText = null;
-		console.error(err);
-		states.errorText = err.data.error || 'Что - то пошло не так, попробуйте еще';
-	} finally {
-		states.loading = false;
 	}
 };
 </script>
@@ -89,7 +68,8 @@ const getSub = async () => {
 						<UInput v-model="states.email" placeholder="Введите ваш email" class="w-full flex" />
 						<span v-if="isNotValidEmail" class="text-red-400 text-[12px]"> Некорректный email</span>
 
-						<UButton class="mt-2 block" @click="handleEmail">Поиск</UButton>
+						<UButton v-if="props.state === 'email'" class="mt-2 block" @click="modal.close()">Принять</UButton>
+						<UButton v-else class="mt-2 block" @click="handleEmail">Поиск</UButton>
 					</template>
 				</main>
 			</article>

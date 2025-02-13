@@ -13,7 +13,7 @@ const states = reactive({
 	listData: null as null | IListFaq[],
 });
 
-const getFaq = async () => {
+const getData = async () => {
 	states.loading = true;
 	try {
 		const res = await $fetch<IListFaq[]>(useApi() + `/get-faq`);
@@ -32,7 +32,7 @@ const getFaq = async () => {
 };
 
 onMounted(() => {
-	getFaq();
+	getData();
 });
 
 const slideover = reactive({
@@ -42,7 +42,7 @@ const slideover = reactive({
 
 const refresh = () => {
 	states.errorText = null;
-	getFaq();
+	getData();
 };
 
 const openFaqDetail = async (item: IListFaq) => {
@@ -56,7 +56,7 @@ const openFaqDetail = async (item: IListFaq) => {
 
 <template>
 	<div>
-		<span>Выберите ваш интересующий вопрос:</span>
+		<span class="text-2xl">Выберите ваш интересующий вопрос:</span>
 
 		<div class="mt-2">
 			<template v-if="states.loading">
@@ -76,7 +76,6 @@ const openFaqDetail = async (item: IListFaq) => {
 						<UButton class="block w-full h-full" @click="openFaqDetail(item)">{{ item.question }}</UButton>
 					</li>
 				</ul>
-				<!-- <UButton class="block mt-2" @click="sendReq"> Отправить </UButton> -->
 			</template>
 		</div>
 

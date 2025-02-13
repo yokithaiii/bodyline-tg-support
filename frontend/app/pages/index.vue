@@ -7,6 +7,7 @@ const openModalEmail = () => {
 	useModal().open(BodyModalEmail, {
 		title: 'Смена почты',
 		descr: ' Укажите новую почту:',
+		state: 'email',
 	});
 };
 </script>
@@ -40,7 +41,9 @@ const openModalEmail = () => {
 		<UDrawer v-model:open="drawerContent.isOpen">
 			<template #content>
 				<article class="my-4 px-2 h-screen overflow-y-auto">
-					<template v-if="drawerContent.state === 'access'"> dsadsa </template>
+					<template v-if="drawerContent.state === 'access'">
+						<action-get-access />
+					</template>
 
 					<template v-else-if="drawerContent.state === 'marathon'"> marathon </template>
 

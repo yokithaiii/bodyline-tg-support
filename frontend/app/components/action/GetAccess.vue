@@ -57,7 +57,7 @@ const refresh = () => {
 				<UButton class="mt-2 block" @click="refresh">Попробовать еще</UButton>
 			</template>
 
-			<template v-else> get acess </template>
+			<!-- <template v-else> get acess </template> -->
 		</div>
 	</div>
 </template>

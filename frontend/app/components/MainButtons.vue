@@ -19,10 +19,18 @@ const openCardDetail = (state: string, shouldOpenModal = false) => {
 </script>
 
 <template>
-	<section class="l-buttons grid grid-cols-2 gap-1 mt-4">
-		<UButton @click="openCardDetail('access', true)">Доступ к приложению 📱</UButton>
-		<UButton @click="openCardDetail('marathon', true)">Доступ к марафону 🏆</UButton>
-		<UButton @click="openCardDetail('qa')">Популярные вопросы ⁉️</UButton>
-		<UButton @click="openCardDetail('ask', true)">Задать вопрос 📝</UButton>
+	<section class="l-buttons gap-1 mt-4">
+		<UButton size="sm" @click="openCardDetail('access', true)"> <span class="text-[10px]"> Доступ к приложению 📱 </span></UButton>
+		<UButton size="sm" @click="openCardDetail('marathon', true)"> <span class="text-[10px]"> Доступ к марафону 🏆 </span></UButton>
+		<UButton size="sm" @click="openCardDetail('qa')"> <span class="text-[10px]"> Популярные вопросы ⁉️ </span></UButton>
+		<UButton size="sm" @click="openCardDetail('ask', true)"> <span class="text-[10px]"> Задать вопрос 📝 </span></UButton>
 	</section>
 </template>
+
+<style scoped>
+.l-buttons {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	/* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
+}
+</style>

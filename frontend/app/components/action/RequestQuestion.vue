@@ -31,6 +31,8 @@ const sendReq = async () => {
 		states.loading = false;
 	}
 };
+
+const textEmpty = computed(() => states.text === '' || states.text.length < 10);
 </script>
 
 <template>
@@ -50,9 +52,9 @@ const sendReq = async () => {
 			</template>
 
 			<template v-else>
-				<UTextarea v-model="states.text" class="w-full" :rows="12" noresize placeholder="Текст проблемы..." />
+				<UTextarea v-model="states.text" class="w-full" :rows="12" :autofocus="false" noresize placeholder="Текст проблемы..." />
 
-				<UButton class="block mt-2" @click="sendReq"> Отправить </UButton>
+				<UButton class="block mt-2" :disabled="textEmpty" @click="sendReq"> Отправить </UButton>
 			</template>
 		</div>
 	</div>

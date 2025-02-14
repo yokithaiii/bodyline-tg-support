@@ -5,6 +5,7 @@ import { BodyModalEmail } from '#components';
 const cloudStorage = useWebAppCloudStorage();
 
 const tma = useWebApp();
+const store = useStore();
 const drawerContent = useDrawer();
 
 const openModalEmail = () => {
@@ -15,13 +16,11 @@ const openModalEmail = () => {
 	});
 };
 
-const emailState = ref('');
-
 const getEmail = async () => {
 	try {
 		const res = await cloudStorage.getStorageItem('user_email');
 		if (res) {
-			emailState.value = res;
+			store.value.email = res;
 		}
 	} catch (err) {
 		console.error(err);
@@ -49,11 +48,11 @@ onMounted(() => {
 						Чем мы можем вам помочь<span class="text-emerald-400">?</span>
 					</h1>
 
-					<div v-if="emailState !== '' || useStore().value.email" class="mt-2">
+					<div v-if="store.email" class="mt-2">
 						<span class="text-[14px]">
 							Указанная почта:
 							<span class="text-emerald-400" @click="openModalEmail">
-								{{ emailState !== '' ? emailState : useStore().value.email }}
+								{{ store.email }}
 							</span>
 							- тыкните чтобы изменить
 						</span>

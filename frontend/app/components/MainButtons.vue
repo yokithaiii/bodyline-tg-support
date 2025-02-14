@@ -20,10 +20,10 @@ const openCardDetail = (state: string, shouldOpenModal = false) => {
 
 <template>
 	<section class="l-buttons gap-1 mt-4">
-		<UButton @click="openCardDetail('access', true)"> <span class="text-[10px]"> Доступ к приложению 📱 </span></UButton>
-		<UButton @click="openCardDetail('marathon', true)"> <span class="text-[10px]"> Доступ к марафону 🏆 </span></UButton>
-		<UButton @click="openCardDetail('qa')"> <span class="text-[10px]"> Популярные вопросы ⁉️ </span></UButton>
-		<UButton @click="openCardDetail('ask', true)"> <span class="text-[10px]"> Задать вопрос 📝 </span></UButton>
+		<UButton size="lg" @click="openCardDetail('access', true)"> <span class="text-[11px]"> Доступ к приложению 📱 </span></UButton>
+		<UButton size="lg" @click="openCardDetail('marathon', true)"> <span class="text-[11px]"> Доступ к марафону 🏆 </span></UButton>
+		<UButton size="lg" @click="openCardDetail('qa')"> <span class="text-[11px]"> Популярные вопросы ⁉️ </span></UButton>
+		<UButton size="lg" @click="openCardDetail('ask', true)"> <span class="text-[11px]"> Задать вопрос 📝 </span></UButton>
 	</section>
 </template>
 

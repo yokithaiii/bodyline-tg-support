@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useWebAppCloudStorage } from 'vue-tg';
+
+const cloudStorage = useWebAppCloudStorage();
 const modal = useModal();
 const store = useStore();
 const drawerContent = useDrawer();
@@ -14,7 +17,6 @@ const states = reactive({
 	errorText: null as null | string,
 });
 
-// const isNotValidEmail = ref(false);
 const isNotValidEmail = computed(() => {
 	const email = states.email.trim();
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,12 +24,21 @@ const isNotValidEmail = computed(() => {
 	return !emailRegex.test(email);
 });
 
+async function setEmailUser(val: string) {
+	try {
+		await cloudStorage.setStorageItem('user_email', val);
+	} catch (err) {
+		store.value.email = val;
+		console.error(err);
+	}
+}
+
 const handleEmail = async () => {
 	if (isNotValidEmail.value) {
 		return;
 	}
 
-	store.value.email = states.email.trim();
+	setEmailUser(states.email.trim());
 	if (drawerContent.value.state === 'access' || drawerContent.value.state === 'ask' || drawerContent.value.state === 'marathon') {
 		await modal.close();
 
@@ -38,7 +49,7 @@ const handleEmail = async () => {
 };
 
 const handleAcceptChange = () => {
-	store.value.email = states.email.trim();
+	setEmailUser(states.email.trim());
 	modal.close();
 };
 </script>
@@ -69,7 +80,6 @@ const handleAcceptChange = () => {
 						<UButton class="mt-2 block" @click="states.errorText = null">Попробовать еще</UButton>
 					</template>
 					<template v-else>
-
 						<UInput v-model="states.email" placeholder="Введите ваш email" class="w-full flex" />
 						<span v-if="isNotValidEmail && states.email.trim() !== ''" class="text-red-400 text-[12px]">
 							Некорректный email

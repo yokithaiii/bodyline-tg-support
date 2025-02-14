@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useWebAppCloudStorage, useWebApp } from 'vue-tg';
 import { BodyModalEmail } from '#components';
-import { useWebApp } from 'vue-tg';
+
+const cloudStorage = useWebAppCloudStorage();
 
 const tma = useWebApp();
 const drawerContent = useDrawer();
@@ -12,6 +14,24 @@ const openModalEmail = () => {
 		state: 'email',
 	});
 };
+
+const emailState = ref('');
+
+const getEmail = async () => {
+	try {
+		const res = await cloudStorage.getStorageItem('user_email');
+		if (res) {
+			emailState.value = res;
+		}
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+onMounted(() => {
+	console.dir('call');
+	getEmail();
+});
 </script>
 
 <template>
@@ -30,11 +50,11 @@ const openModalEmail = () => {
 						Чем мы можем вам помочь<span class="text-emerald-400">?</span>
 					</h1>
 
-					<div v-if="useStore().value.email" class="mt-2">
-						<span class="text-[14px]"
-							>Указанная почта:
+					<div v-if="emailState !== '' || useStore().value.email" class="mt-2">
+						<span class="text-[14px]">
+							Указанная почта:
 							<span class="text-emerald-400" @click="openModalEmail">
-								{{ useStore().value.email }}
+								{{ emailState !== '' ? emailState : useStore().value.email }}
 							</span>
 							- тыкните чтобы изменить
 						</span>

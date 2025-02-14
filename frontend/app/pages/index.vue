@@ -29,7 +29,6 @@ const getEmail = async () => {
 };
 
 onMounted(() => {
-	console.dir('call');
 	getEmail();
 });
 </script>

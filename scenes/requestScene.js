@@ -1,12 +1,12 @@
 const { Scenes } = require('telegraf');
-const { saveRequest } = require('../helpers/api');
+const { sendQuestion } = require('../helpers/api');
 const { mainKeyboard, backKeyboard } = require('../helpers/keyboards');
 const { validateEmail } = require('../helpers/validators')
 
 const createRequestScene = new Scenes.BaseScene('REQUEST_SCENE')
     .enter(ctx => ctx.reply('Для начала напишите ваш email:', backKeyboard))
     .on('text', async (ctx) => {
-        if (ctx.message.text === 'Назад') {
+        if (ctx.message.text === 'Назад' || ctx.message.text === '/start') {
             ctx.scene.leave();
             return ctx.reply('Выберите действие:', mainKeyboard);
         }
@@ -22,8 +22,8 @@ const createRequestScene = new Scenes.BaseScene('REQUEST_SCENE')
         }
 
         try {
-            await saveRequest(ctx.scene.state.email, ctx.message.text);
-            await ctx.reply('✅ Ваше обращение успешно сохранено!');
+            const message = await sendQuestion(ctx.scene.state.email, ctx.message.text, ctx.message.from.username);
+            await ctx.reply('✅ ' + message);
         } catch (error) {
             await ctx.reply(`❌ Ошибка: ${error.message}`);
         }

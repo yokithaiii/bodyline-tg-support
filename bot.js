@@ -15,7 +15,7 @@ bot.command('start', ctx =>
     ctx.reply(START_MESSAGE(ctx.from.first_name), mainKeyboard)
 );
 
-bot.hears('Ответы на вопросы ⁉️', ctx => ctx.scene.enter('FAQ_SCENE'));
+bot.hears('Часто задаваемые вопросы ⁉️', ctx => ctx.scene.enter('FAQ_SCENE'));
 bot.hears('Задать вопрос 📝', ctx => ctx.scene.enter('REQUEST_SCENE'));
 bot.hears('Открыть доступ к приложению 📱', ctx => ctx.scene.enter('UNLOCK_APP_SCENE'));
 bot.hears('Открыть доступ к марафону 🏆', ctx => ctx.scene.enter('UNLOCK_MARATHON_SCENE'));

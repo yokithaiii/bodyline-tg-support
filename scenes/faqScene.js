@@ -43,7 +43,9 @@ const faqScene = new Scenes.BaseScene('FAQ_SCENE')
                     await ctx.reply(selected.answer);
                 }
 
-                if (selected.video_url !== null || selected.video_url != '') {
+                console.log(selected);
+
+                if (selected.video_url != null) {
                     await ctx.replyWithHTML(`<b><a href='${selected.video_url}'>Ссылка на видео</a></b>`)
                 }
 

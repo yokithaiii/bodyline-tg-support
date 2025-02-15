@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { errorHandler } = require('./errorHandler');
 
+// get faq
 async function getFAQ() {
     try {
         const response = await axios.get(`${process.env.BACKEND_API_URL}/get-faq`);
@@ -10,11 +11,37 @@ async function getFAQ() {
     }
 }
 
-async function saveRequest(email, request) {
+// send question
+async function sendQuestion(email, question, username) {
     try {
-        const response = await axios.post(`${process.env.BACKEND_API_URL}/request`, {
+        const response = await axios.post(`${process.env.BACKEND_API_URL}/send-question`, {
             email,
-            request
+            question,
+            username
+        });
+        return response.data.message;
+    } catch (error) {
+        throw new Error(errorHandler(error));
+    }
+}
+
+// get subscriptions
+async function getSubscriptions(ctx, email) {
+    try {
+        const response = await axios.get(`${process.env.BACKEND_API_URL}/get-subscriptions?email=${email}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(errorHandler(error));
+    }
+}
+
+// unlock subscription
+async function unlockSubscription(ctx, email, subscriptionId) {
+    await ctx.reply('✅ Проверяем подписку и транзакции...');
+    try {
+        const response = await axios.post(`${process.env.BACKEND_API_URL}/unlock-subscription`, {
+            email: email,
+            subscription_id: subscriptionId,
         });
         return response.data;
     } catch (error) {
@@ -22,17 +49,8 @@ async function saveRequest(email, request) {
     }
 }
 
-async function getSub(ctx) {
-    await ctx.reply('✅ Ищем Ваш аккаунт...');
-    try {
-        const response = await axios.get(`${process.env.BACKEND_API_URL}/get-sub?email=${ctx.message.text}`);
-        return response.data;
-    } catch (error) {
-        throw new Error(errorHandler(error));
-    }
-}
-
-async function getMarathon() {
+// get marathons
+async function getMarathons() {
     try {
         const response = await axios.get(`${process.env.BACKEND_API_URL}/get-workouts`);
         return response.data;
@@ -41,12 +59,12 @@ async function getMarathon() {
     }
 }
 
-async function unlockMarathon(ctx, workoutTitle) {
+async function unlockMarathon(ctx, workoutId) {
     await ctx.reply('✅ Ищем Ваш аккаунт...');
     try {
         const response = await axios.post(`${process.env.BACKEND_API_URL}/unlock-workout`, {
             email: ctx.scene.state.email,
-            workout_title: workoutTitle,
+            workout_id: workoutId,
         });
         return response.data;
     } catch (error) {
@@ -56,8 +74,9 @@ async function unlockMarathon(ctx, workoutTitle) {
 
 module.exports = {
     getFAQ,
-    saveRequest,
-    getSub,
-    getMarathon,
-    unlockMarathon
+    sendQuestion,
+    getSubscriptions,
+    getMarathons,
+    unlockMarathon,
+    unlockSubscription
 };

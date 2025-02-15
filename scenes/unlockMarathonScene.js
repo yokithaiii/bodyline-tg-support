@@ -1,5 +1,5 @@
 const { Scenes } = require('telegraf');
-const { getMarathon, unlockMarathon } = require('../helpers/api');
+const { getMarathons, unlockMarathon } = require('../helpers/api');
 const { mainKeyboard, backKeyboard } = require('../helpers/keyboards');
 const { validateEmail } = require('../helpers/validators');
 
@@ -7,7 +7,7 @@ const createRequestScene = new Scenes.BaseScene('UNLOCK_MARATHON_SCENE')
     .enter(async (ctx) => {
         try {
             await ctx.reply('✅ Ищем марафоны...');
-            const workouts = await getMarathon();
+            const workouts = await getMarathons();
             const buttons = workouts.map(item => [item.title]);
             buttons.push(['Назад']);
             
@@ -29,15 +29,15 @@ const createRequestScene = new Scenes.BaseScene('UNLOCK_MARATHON_SCENE')
             return ctx.reply('Выберите действие:', mainKeyboard);
         }
 
-        if (!ctx.scene.state.marathonTitle) {
-            const workouts = await getMarathon();
+        if (!ctx.scene.state.marathonId) {
+            const workouts = await getMarathons();
             const selected = workouts.find(item => item.title === ctx.message.text);
 
             if (!selected) {
                 return ctx.reply(`❌ Выберите из нижеперечисленных вариантов`);
             }
 
-            ctx.scene.state.marathonTitle = selected.title;
+            ctx.scene.state.marathonId = selected.id;
             return ctx.reply('Для поиска вашего аккаунта напишите ваш email: 🔎', backKeyboard);
         }
 
@@ -49,7 +49,7 @@ const createRequestScene = new Scenes.BaseScene('UNLOCK_MARATHON_SCENE')
             ctx.scene.state.email = ctx.message.text;
 
             try {
-                await unlockMarathon(ctx, ctx.scene.state.marathonTitle);
+                await unlockMarathon(ctx, ctx.scene.state.marathonId);
                 await ctx.reply('✅ Открываем доступ, ждите!');
             } catch (error) {
                 await ctx.reply(`❌ Ошибка: ${error.message}`);

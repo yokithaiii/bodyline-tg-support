@@ -58,26 +58,13 @@ const openFaqDetail = async (item: IListFaq) => {
 	<div>
 		<span class="text-2xl">Выберите ваш интересующий вопрос:</span>
 
-		<div class="mt-2">
-			<template v-if="states.loading">
-				<div class="w-full flex justify-center">
-					<div class="spinner" />
-				</div>
-			</template>
-
-			<template v-else-if="states.errorText !== null">
-				<span class="text-red-400">{{ states.errorText }}</span>
-				<UButton class="mt-2 block" @click="refresh">Попробовать еще</UButton>
-			</template>
-
-			<template v-else>
-				<ul class="grid grid-cols-1 gap-2">
-					<li v-for="item in states.listData" :key="item.question">
-						<UButton class="block w-full h-full" @click="openFaqDetail(item)">{{ item.question }}</UButton>
-					</li>
-				</ul>
-			</template>
-		</div>
+		<base-page class="mt-2" :loading="states.loading" :error-text="states.errorText" :show-error-btn="true" @refresh="refresh">
+			<ul class="grid grid-cols-1 gap-2">
+				<li v-for="item in states.listData" :key="item.question">
+					<UButton class="block w-full h-full" @click="openFaqDetail(item)">{{ item.question }}</UButton>
+				</li>
+			</ul>
+		</base-page>
 
 		<USlideover v-model:open="slideover.isOpen" title="Ответ">
 			<template #body>

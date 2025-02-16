@@ -52,13 +52,20 @@ onUnmounted(() => {
 		<span class="text-2xl">Опишите вашу проблему:</span>
 
 		<base-page
-			class="mt-2 overflow-hidden relative l-input"
+			class="mt-2 overflow-hidden relative"
 			:loading="states.loading"
 			:error-text="states.errorText"
 			:show-error-btn="true"
 			@refresh="states.errorText = null"
 		>
-			<UTextarea v-model="states.text" class="w-full" :rows="12" :autofocus="false" noresize placeholder="Текст проблемы..." />
+			<UTextarea
+				v-model="states.text"
+				class="w-full l-input"
+				:rows="12"
+				:autofocus="false"
+				noresize
+				placeholder="Текст проблемы..."
+			/>
 			<span class="text-sm">Минимум 10 символов</span>
 
 			<UButton class="block mt-2" :disabled="textEmpty" @click="sendReq"> Отправить </UButton>

@@ -49,7 +49,7 @@ const actionButtons = [
 <template>
 	<section class="l-buttons gap-1 mt-4">
 		<UButton v-for="item in actionButtons" :key="item.id" size="lg" @click="openCardDetail(item.state, item.modal)">
-			<span class="text-[10px] line-clamp-1"> {{ item.title }}" </span>
+			<span class="text-[10px] line-clamp-1"> {{ item.title }} </span>
 		</UButton>
 	</section>
 </template>

@@ -36,14 +36,15 @@ const sendReq = async () => {
 };
 
 const textEmpty = computed(() => states.text === '' || states.text.length < 10);
-
+const initCostul = ref(true);
 onMounted(() => {
 	setTimeout(() => {
-		document.body.classList.add('loaded');
-	}, 150);
+		// document.body.classList.add('loaded');
+		initCostul.value = false;
+	}, 250);
 });
 onUnmounted(() => {
-	document.body.classList.remove('loaded');
+	// document.body.classList.remove('loaded');
 });
 </script>
 
@@ -59,6 +60,7 @@ onUnmounted(() => {
 			@refresh="states.errorText = null"
 		>
 			<UTextarea
+				v-show="!initCostul"
 				v-model="states.text"
 				class="w-full l-input"
 				:rows="12"
@@ -73,11 +75,11 @@ onUnmounted(() => {
 	</div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 .l-input {
 	pointer-events: none;
 }
 .loaded .l-input {
 	pointer-events: all;
 }
-</style>
+</style> -->

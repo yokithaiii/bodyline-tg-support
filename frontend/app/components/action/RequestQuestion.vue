@@ -20,6 +20,7 @@ const sendReq = async () => {
 			useDrawer().value.isOpen = false;
 			useToast().add({
 				title: '✅ Ваше обращение успешно отправлено!',
+				close: false,
 			});
 		}
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any

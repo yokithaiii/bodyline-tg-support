@@ -1,31 +1,33 @@
 <script setup lang="ts">
+interface IListSub {
+	id: string;
+	firstname: string;
+	lastname: string;
+	is_active: boolean;
+}
+
 const states = reactive({
-	text: '',
 	loading: false,
 	errorText: null as null | string,
-	data: null,
+	data: null as null | IListSub[],
 });
 
 const getData = async () => {
 	states.loading = true;
 	try {
-		const res = await $fetch.raw<{ message: string }>(useApi() + `/get-sub`, {
+		const res = await $fetch<IListSub[]>(useApi() + `/get-subscriptions`, {
 			query: {
 				email: useStore().value.email,
 			},
 		});
 
-		if (res.status === 200 && res._data) {
-			useDrawer().value.isOpen = false;
-			useToast().add({
-				title: res._data?.message || '✅ Успешно открыли доступ!',
-			});
+		if (res) {
+			states.data = res;
 		}
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (err: any) {
+	} catch (err: unknown) {
 		states.errorText = null;
 		console.error(err);
-		states.errorText = err.data.error || 'Что - то пошло не так, попробуйте еще';
+		states.errorText = '❌' + ((err as { data: { error: string } }).data.error || 'Что-то пошло не так');
 	} finally {
 		states.loading = false;
 	}
@@ -35,9 +37,38 @@ onMounted(() => {
 	getData();
 });
 
-const refresh = () => {
-	states.errorText = null;
-	getData();
+// const refresh = () => {
+// 	states.errorText = null;
+// 	getData();
+// };
+
+const handleClickItem = async (item: IListSub) => {
+	states.loading = true;
+	try {
+		const res = await $fetch(useApi() + `/unlock-subscription`, {
+			method: 'POST',
+			body: {
+				email: useStore().value.email,
+				subscription_id: item.id,
+			},
+		});
+
+		if (res) {
+			useDrawer().value.isOpen = false;
+			useToast().add({
+				title: '✅ Доступ успешно открыт!',
+				close: false,
+			});
+		}
+	} catch (err: unknown) {
+		console.error(err);
+		useToast().add({
+			title: '❌' + ((err as { data: { error: string } }).data.error || 'Что-то пошло не так'),
+			close: false,
+		});
+	} finally {
+		states.loading = false;
+	}
 };
 </script>
 
@@ -45,19 +76,14 @@ const refresh = () => {
 	<div>
 		<span class="text-2xl">Открытие доступа к приложению</span>
 
-		<div class="mt-2">
-			<template v-if="states.loading">
-				<div class="w-full flex justify-center">
-					<div class="spinner" />
-				</div>
-			</template>
+		<base-page :loading="states.loading" :error-text="states.errorText" class="mt-2">
+			<span class="text-[14px]">Выберите тренера, на которого хотите открыть доступ</span>
 
-			<template v-else-if="states.errorText !== null">
-				<span class="text-red-400">{{ states.errorText }}</span>
-				<UButton class="mt-2 block" @click="refresh">Попробовать еще</UButton>
-			</template>
-
-			<!-- <template v-else> get acess </template> -->
-		</div>
+			<ul class="grid grid-cols-1 gap-2 mt-2">
+				<li v-for="item in states.data" :key="item.id">
+					<UButton class="block w-full h-full" @click="handleClickItem(item)">{{ item.firstname }}</UButton>
+				</li>
+			</ul>
+		</base-page>
 	</div>
 </template>

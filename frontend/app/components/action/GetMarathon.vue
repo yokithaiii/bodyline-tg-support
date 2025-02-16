@@ -51,20 +51,20 @@ const openMarathon = async (item: IListMarathon) => {
 			method: 'POST',
 			body: {
 				email: useStore().value.email,
-				workout_title: item.title,
+				workout_id: item.id,
 			},
 		});
 		if (res.status === 200 && res._data) {
 			useDrawer().value.isOpen = false;
 			useToast().add({
-				title: '✅' + res._data.message && '✅ Успешно!',
+				title: '✅' + (res._data.message || 'Успешно!'),
+				close: false,
 			});
 		}
-	} catch (err: any) {
+	} catch (err: unknown) {
 		console.error(err);
-		console.dir(err);
 		useToast().add({
-			title: err.data.error ?? '❌ Что-то пошло не так',
+			title: '❌' + ((err as { data: { error: string } }).data.error || 'Что-то пошло не так'),
 			close: false,
 		});
 	} finally {

@@ -1,6 +1,7 @@
 interface IStore {
 	email: string | null;
 	isValidateEmail: boolean;
+	username: string | null;
 }
 
 export default function () {
@@ -8,6 +9,7 @@ export default function () {
 		return {
 			email: null,
 			isValidateEmail: false,
+			username: null,
 		};
 	});
 }

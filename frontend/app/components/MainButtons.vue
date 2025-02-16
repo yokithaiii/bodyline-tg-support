@@ -1,3 +1,4 @@
+UButton
 <script setup lang="ts">
 import { BodyModalEmail } from '#components';
 
@@ -16,14 +17,40 @@ const openCardDetail = (state: string, shouldOpenModal = false) => {
 		drawerContent.value.isOpen = true;
 	}
 };
+
+const actionButtons = [
+	{
+		id: 1,
+		title: 'Доступ к приложению 📱',
+		state: 'access',
+		modal: true,
+	},
+	{
+		id: 2,
+		title: 'Доступ к марафону 🏆',
+		state: 'marathon',
+		modal: true,
+	},
+	{
+		id: 3,
+		title: 'Часто задаваемые вопросы ⁉️',
+		state: 'qa',
+		modal: false,
+	},
+	{
+		id: 4,
+		title: 'Задать вопрос 📝',
+		state: 'ask',
+		modal: true,
+	},
+];
 </script>
 
 <template>
 	<section class="l-buttons gap-1 mt-4">
-		<UButton size="lg" @click="openCardDetail('access', true)"> <span class="text-[11px]"> Доступ к приложению 📱 </span></UButton>
-		<UButton size="lg" @click="openCardDetail('marathon', true)"> <span class="text-[11px]"> Доступ к марафону 🏆 </span></UButton>
-		<UButton size="lg" @click="openCardDetail('qa')"> <span class="text-[11px]"> Популярные вопросы ⁉️ </span></UButton>
-		<UButton size="lg" @click="openCardDetail('ask', true)"> <span class="text-[11px]"> Задать вопрос 📝 </span></UButton>
+		<UButton v-for="item in actionButtons" :key="item.id" size="lg" @click="openCardDetail(item.state, item.modal)">
+			<span class="text-[10px] line-clamp-1"> {{ item.title }}" </span>
+		</UButton>
 	</section>
 </template>
 
@@ -31,6 +58,5 @@ const openCardDetail = (state: string, shouldOpenModal = false) => {
 .l-buttons {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	/* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); */
 }
 </style>

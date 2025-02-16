@@ -28,6 +28,7 @@ const getEmail = async () => {
 };
 
 onMounted(() => {
+	store.value.username = tma.initDataUnsafe.user?.username;
 	getEmail();
 });
 </script>

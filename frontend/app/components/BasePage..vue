@@ -2,7 +2,9 @@
 const states = defineProps<{
 	loading: boolean;
 	errorText: null | string;
+	showErrorBtn?: boolean;
 }>();
+const emits = defineEmits(['refresh']);
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const states = defineProps<{
 
 		<template v-else-if="states.errorText !== null">
 			<span class="text-red-400 max-w-[80%] block">{{ states.errorText }}</span>
-			<!-- <UButton class="mt-2 block" @click="refresh">Попробовать еще</UButton> -->
+			<UButton v-if="states.showErrorBtn" class="mt-2 block" @click="emits('refresh')">Попробовать еще</UButton>
 		</template>
 
 		<template v-else>

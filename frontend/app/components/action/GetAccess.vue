@@ -27,7 +27,7 @@ const getData = async () => {
 	} catch (err: unknown) {
 		states.errorText = null;
 		console.error(err);
-		states.errorText = '❌' + ((err as { data: { error: string } }).data.error || 'Что-то пошло не так');
+		states.errorText = (err as { data: { error: string } }).data.error || 'Что - то пошло не так, попробуйте еще';
 	} finally {
 		states.loading = false;
 	}
@@ -37,10 +37,10 @@ onMounted(() => {
 	getData();
 });
 
-// const refresh = () => {
-// 	states.errorText = null;
-// 	getData();
-// };
+const handleRefreshPage = () => {
+	states.errorText = null;
+	getData();
+};
 
 const handleClickItem = async (item: IListSub) => {
 	states.loading = true;
@@ -74,9 +74,19 @@ const handleClickItem = async (item: IListSub) => {
 
 <template>
 	<div>
-		<span class="text-2xl">Открытие доступа к приложению</span>
+		<span class="text-2xl">
+			Открытие доступа к
+			<br />
+			приложению 📱
+		</span>
 
-		<base-page :loading="states.loading" :error-text="states.errorText" class="mt-2">
+		<base-page
+			class="mt-2"
+			:loading="states.loading"
+			:error-text="states.errorText"
+			:show-error-btn="true"
+			@refresh="handleRefreshPage"
+		>
 			<span class="text-[14px]">Выберите тренера, на которого хотите открыть доступ</span>
 
 			<ul class="grid grid-cols-1 gap-2 mt-2">

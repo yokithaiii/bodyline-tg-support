@@ -26,7 +26,7 @@ const createRequestScene = new Scenes.BaseScene('UNLOCK_APP_SCENE')
                 const subscriptions = await getSubscriptions(ctx, ctx.scene.state.email);
 
                 if (!subscriptions || subscriptions.length === 0) {
-                    await ctx.reply('❌ Подписки не найдены.');
+                    await ctx.reply('Подписки не найдены.');
                     ctx.scene.leave();
                     return ctx.reply('Выберите действие:', mainKeyboard);
                 }
@@ -42,7 +42,7 @@ const createRequestScene = new Scenes.BaseScene('UNLOCK_APP_SCENE')
                     },
                 });
             } catch (error) {
-                await ctx.reply(`❌ Ошибка: ${error.message}`);
+                await ctx.reply(error.message);
                 ctx.scene.leave();
                 return ctx.reply('Выберите действие:', mainKeyboard);
             }
@@ -51,14 +51,15 @@ const createRequestScene = new Scenes.BaseScene('UNLOCK_APP_SCENE')
             const selectedSubscription = subscriptions.find(item => item.firstname === ctx.message.text);
 
             if (!selectedSubscription) {
-                return ctx.reply('❌ Выберите из предложенных вариантов.');
+                return ctx.reply('Выберите из предложенных вариантов.');
             }
 
             try {
                 await unlockSubscription(ctx, ctx.scene.state.email, selectedSubscription.id);
                 await ctx.reply('✅ Доступ успешно открыт!');
             } catch (error) {
-                await ctx.reply(`❌ Ошибка: ${error.message}`);
+                // await ctx.reply(error.error);
+                // await ctx.reply(error.buy_link);
             }
 
             ctx.scene.leave();

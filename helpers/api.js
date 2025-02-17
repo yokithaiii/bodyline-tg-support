@@ -45,6 +45,8 @@ async function unlockSubscription(ctx, email, subscriptionId) {
         });
         return response.data;
     } catch (error) {
+        await ctx.reply(error.response.data.error);
+        await ctx.reply(error.response.data.buy_link);
         throw new Error(errorHandler(error));
     }
 }

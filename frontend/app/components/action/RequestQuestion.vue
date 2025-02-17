@@ -39,12 +39,8 @@ const textEmpty = computed(() => states.text === '' || states.text.length < 10);
 const initCostul = ref(true);
 onMounted(() => {
 	setTimeout(() => {
-		// document.body.classList.add('loaded');
 		initCostul.value = false;
 	}, 250);
-});
-onUnmounted(() => {
-	// document.body.classList.remove('loaded');
 });
 </script>
 
@@ -62,7 +58,7 @@ onUnmounted(() => {
 			<UTextarea
 				v-show="!initCostul"
 				v-model="states.text"
-				class="w-full l-input"
+				class="w-full"
 				:rows="12"
 				:autofocus="false"
 				noresize
@@ -74,12 +70,3 @@ onUnmounted(() => {
 		</base-page>
 	</div>
 </template>
-
-<!-- <style scoped>
-.l-input {
-	pointer-events: none;
-}
-.loaded .l-input {
-	pointer-events: all;
-}
-</style> -->

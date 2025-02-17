@@ -3,6 +3,7 @@ const states = defineProps<{
 	loading: boolean;
 	errorText: null | string;
 	showErrorBtn?: boolean;
+	showAccessBtn?: boolean;
 }>();
 const emits = defineEmits(['refresh']);
 </script>
@@ -17,7 +18,13 @@ const emits = defineEmits(['refresh']);
 
 		<template v-else-if="states.errorText !== null">
 			<span class="text-red-400 max-w-[80%] block">{{ states.errorText }}</span>
-			<UButton v-if="states.showErrorBtn" class="mt-2 block" @click="emits('refresh')">Попробовать еще</UButton>
+			<div class="flex items-center gap-2">
+				<UButton v-if="states.showErrorBtn" class="mt-2 block" @click="emits('refresh')">Попробовать еще</UButton>
+				<UButton v-if="states.showAccessBtn" class="mt-2 block" @click="emits('refresh', 'buy_access')">Купить</UButton>
+			</div>
+			<span v-if="states.showAccessBtn" class="text-sm mt-1 block">
+				Нажав на кнопку "Купить" вы оформляете подписку на того тренера, которую выбрали!
+			</span>
 		</template>
 
 		<template v-else>

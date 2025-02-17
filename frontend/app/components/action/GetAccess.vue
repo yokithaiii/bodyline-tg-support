@@ -52,26 +52,13 @@ const handleRefreshPage = (state: string) => {
 const goToBuySub = async () => {
 	if (states.buyLink === null) return;
 	try {
-		// const res = await $fetch(states.buyLink);
 		useWebAppNavigation().openLink(states.buyLink);
-		// if (window.Telegram && window.Telegram.WebApp) {
-		// 	window.Telegram.WebApp.openLink(states.buyLink);
-		// } else {
-		// 	window.open(states.buyLink, '_blank');
-		// 	// useToast().add({
-		// 	// 	title: 'Ошибка, окружение не телеграм мини аппс',
-		// 	// 	close: false,
-		// 	// });
-		// 	console.error('Telegram WebApp API is not available');
-		// }
 	} catch (err: unknown) {
 		console.error(err);
 		useToast().add({
-			title: '❌' + ((err as { data: { error: string } }).data.error || 'Что-то пошло не так'),
+			title: '❌' + 'Что-то пошло не так',
 			close: false,
 		});
-	} finally {
-		// states.loading = false;
 	}
 };
 

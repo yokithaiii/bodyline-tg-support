@@ -11,14 +11,27 @@ const stage = new Scenes.Stage(scenes);
 bot.use(session());
 bot.use(stage.middleware());
 
-bot.command('start', ctx => 
-    ctx.reply(START_MESSAGE(ctx.from.first_name), mainKeyboard)
-);
+bot.command('start', ctx => {
+    const openTMAButton = {
+        text: 'Открыть мини-приложение 🚀',
+        web_app: { url: 'https://support.bodylineapp.com/' }
+    };
 
-bot.hears('Часто задаваемые вопросы ⁉️', ctx => ctx.scene.enter('FAQ_SCENE'));
-bot.hears('Задать вопрос 📝', ctx => ctx.scene.enter('REQUEST_SCENE'));
-bot.hears('Открыть доступ к приложению 📱', ctx => ctx.scene.enter('UNLOCK_APP_SCENE'));
-bot.hears('Открыть доступ к марафону 🏆', ctx => ctx.scene.enter('UNLOCK_MARATHON_SCENE'));
+    ctx.reply(START_MESSAGE(ctx.from.first_name), {
+        reply_markup: {
+            inline_keyboard: [[openTMAButton]]
+        }
+    });
+});
+
+// bot.command('start', ctx => 
+//     ctx.reply(START_MESSAGE(ctx.from.first_name), mainKeyboard)
+// );
+
+// bot.hears('Часто задаваемые вопросы ⁉️', ctx => ctx.scene.enter('FAQ_SCENE'));
+// bot.hears('Задать вопрос 📝', ctx => ctx.scene.enter('REQUEST_SCENE'));
+// bot.hears('Открыть доступ к приложению 📱', ctx => ctx.scene.enter('UNLOCK_APP_SCENE'));
+// bot.hears('Открыть доступ к марафону 🏆', ctx => ctx.scene.enter('UNLOCK_MARATHON_SCENE'));
 // bot.hears('Открыть доступ к марафону 🏆', ctx => ctx.reply(FUNCTION_IN_DEVELOPMENT, mainKeyboard));
 
 bot.launch();

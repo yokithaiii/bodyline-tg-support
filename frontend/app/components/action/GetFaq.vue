@@ -4,6 +4,7 @@ interface IListFaq {
 	answer: string;
 	image_url: string | null;
 	video_url: string | null;
+	is_unsubscribe: boolean;
 }
 
 const states = reactive({
@@ -52,6 +53,30 @@ const openFaqDetail = async (item: IListFaq) => {
 		slideover.data = item;
 	}, 1000);
 };
+
+const handleUnsubscribe = async () => {
+	try {
+		const res = await $fetch<{ message: string }>(useApi() + '/unsubscribe', {
+			method: 'POST',
+			body: {
+				email: useStore().value.email,
+			},
+		});
+		if (res) {
+			slideover.isOpen = false;
+			useToast().add({
+				title: '✅' + (res.message || 'Успешно!'),
+				close: false,
+			});
+		}
+	} catch (err) {
+		console.error(err);
+		useToast().add({
+			title: 'Что-то пошло не так',
+			close: false,
+		});
+	}
+};
 </script>
 
 <template>
@@ -73,6 +98,8 @@ const openFaqDetail = async (item: IListFaq) => {
 				</div>
 				<template v-else>
 					<p>{{ slideover.data?.answer }}</p>
+
+					<UButton v-if="slideover.data?.is_unsubscribe" class="mt-2 block" @click="handleUnsubscribe"> Отписаться </UButton>
 
 					<nuxt-img
 						v-if="slideover.data?.image_url"

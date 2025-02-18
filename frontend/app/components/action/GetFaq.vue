@@ -54,7 +54,10 @@ const openFaqDetail = async (item: IListFaq) => {
 	}, 1000);
 };
 
+const loadSlideover = ref(false);
+
 const handleUnsubscribe = async () => {
+	loadSlideover.value = true;
 	try {
 		const res = await $fetch<{ message: string }>(useApi() + '/unsubscribe', {
 			method: 'POST',
@@ -75,6 +78,8 @@ const handleUnsubscribe = async () => {
 			title: 'Что-то пошло не так',
 			close: false,
 		});
+	} finally {
+		loadSlideover.value = false;
 	}
 };
 </script>
@@ -93,7 +98,7 @@ const handleUnsubscribe = async () => {
 
 		<USlideover v-model:open="slideover.isOpen" title="Ответ">
 			<template #body>
-				<div v-if="slideover.data === null" class="w-full flex justify-center">
+				<div v-if="loadSlideover || slideover.data === null" class="w-full flex justify-center">
 					<div class="spinner" />
 				</div>
 				<template v-else>

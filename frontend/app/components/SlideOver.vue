@@ -1,22 +1,22 @@
 <script setup lang="ts">
 const socials = [
-	{
-		id: 1,
-		name: 'vk',
-		icon: 'i-mdi:vk',
-		link: '#',
-	},
+	// {
+	// 	id: 1,
+	// 	name: 'vk',
+	// 	icon: 'i-mdi:vk',
+	// 	link: '#',
+	// },
 	{
 		id: 2,
 		name: 'telegram',
 		icon: 'i-ic:baseline-telegram',
-		link: '#',
+		link: 'https://t.me/+K_LPTotS-3dhYzYy',
 	},
 	{
 		id: 3,
 		name: 'instagram',
 		icon: 'i-mdi:instagram',
-		link: '#',
+		link: 'https://www.instagram.com/invites/contact/?igsh=368l1cqqg1yv&utm_content=1cjl5ty',
 	},
 ];
 </script>

@@ -40,13 +40,11 @@ const handleEmail = async () => {
 	}
 
 	setEmailUser(states.email.trim());
-	if (drawerContent.value.state === 'access' || drawerContent.value.state === 'ask' || drawerContent.value.state === 'marathon') {
-		await modal.close();
+	await modal.close();
 
-		setTimeout(() => {
-			drawerContent.value.isOpen = true;
-		}, 500);
-	}
+	setTimeout(() => {
+		drawerContent.value.isOpen = true;
+	}, 500);
 };
 
 const handleAcceptChange = () => {

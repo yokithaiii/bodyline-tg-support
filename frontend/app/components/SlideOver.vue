@@ -33,7 +33,7 @@ const socials = [
 					</li>
 				</ul>
 				<div class="mt-auto">
-					<nuxt-link to="https://t.me/beachislove" target="_blank" external title="Тыкни">
+					<nuxt-link to="https://t.me/beachislove" target="_blank" external title="Тыкни" class="text-[8px]">
 						Разработано с любовью ❤️ - @beachislove
 					</nuxt-link>
 				</div>

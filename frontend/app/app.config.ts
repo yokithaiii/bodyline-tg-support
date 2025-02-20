@@ -22,7 +22,8 @@ export default defineAppConfig({
 		},
 		toast: {
 			slots: {
-				root: '!pointer-events-none',
+				root: '!pointer-events-none !top-4',
+				position: '!top-4',
 			},
 		},
 	},

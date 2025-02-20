@@ -39,6 +39,13 @@ const actionButtons = [
 		state: 'ask',
 	},
 ];
+
+const tost = () => {
+	useToast().add({
+		title: 'dsaadsa',
+		close: false,
+	});
+};
 </script>
 
 <template>
@@ -46,6 +53,7 @@ const actionButtons = [
 		<UButton v-for="item in actionButtons" :key="item.id" size="lg" @click="openCardDetail(item.state)">
 			<span class="text-[10px] line-clamp-1"> {{ item.title }} </span>
 		</UButton>
+		<UButton @click="tost">dsada</UButton>
 	</section>
 </template>
 

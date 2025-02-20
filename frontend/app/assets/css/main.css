@@ -35,7 +35,8 @@
 @layer base {
 	:root {
 		--ui-primary: var(--ui-color-primary-400);
-		--ui-bg: oklch(0.967 0.001 286.375);
+		/* --ui-bg: oklch(0.967 0.001 286.375); */
+		--ui-bg: white;
 		--ui-bg-elevated: var(--ui-color-neutral-300);
 	}
 
@@ -108,4 +109,9 @@
 	to {
 		-webkit-transform: rotate(360deg);
 	}
+}
+
+div[role='region'] ol.fixed.flex.flex-col {
+	top: calc(var(--spacing) * 4) !important;
+	bottom: unset !important;
 }

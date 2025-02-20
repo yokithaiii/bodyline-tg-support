@@ -22,16 +22,19 @@ const startWithText = computed(() => {
 		</template>
 
 		<template v-else-if="states.errorText !== null">
-			<span class="max-w-[80%] block" :class="!startWithText ? 'text-red-400' : ''"
-				>{{ states.errorText }} <span v-if="startWithText">✅</span></span
-			>
-			<div class="flex items-center gap-2">
-				<UButton v-if="states.showErrorBtn" class="mt-2 block" @click="emits('refresh')">Попробовать еще</UButton>
-				<UButton v-if="states.showAccessBtn" class="mt-2 block" @click="emits('refresh', 'buy_access')">Купить</UButton>
-			</div>
-			<span v-if="states.showAccessBtn" class="text-sm mt-1 block">
-				Нажав на кнопку "Купить" вы оформляете подписку на того тренера, которую выбрали!
+			<span class="max-w-[80%] block" :class="!startWithText ? 'text-red-400' : ''">
+				{{ states.errorText }}
+				<span v-if="startWithText">✅</span>
 			</span>
+			<template v-if="!startWithText">
+				<div class="flex items-center gap-2">
+					<UButton v-if="states.showErrorBtn" class="mt-2 block" @click="emits('refresh')">Попробовать еще</UButton>
+					<UButton v-if="states.showAccessBtn" class="mt-2 block" @click="emits('refresh', 'buy_access')">Купить</UButton>
+				</div>
+				<span v-if="states.showAccessBtn" class="text-sm mt-1 block">
+					Нажав на кнопку "Купить" вы оформляете подписку на того тренера, которую выбрали!
+				</span>
+			</template>
 		</template>
 
 		<template v-else>

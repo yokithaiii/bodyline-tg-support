@@ -6,6 +6,11 @@ const states = defineProps<{
 	showAccessBtn?: boolean;
 }>();
 const emits = defineEmits(['refresh']);
+
+const startWithText = computed(() => {
+	if (states.errorText === null) return false;
+	return states.errorText.startsWith('Аккаунт уже открыт');
+});
 </script>
 
 <template>
@@ -17,7 +22,9 @@ const emits = defineEmits(['refresh']);
 		</template>
 
 		<template v-else-if="states.errorText !== null">
-			<span class="text-red-400 max-w-[80%] block">{{ states.errorText }}</span>
+			<span class="max-w-[80%] block" :class="!startWithText ? 'text-red-400' : ''"
+				>{{ states.errorText }} <span v-if="startWithText">✅</span></span
+			>
 			<div class="flex items-center gap-2">
 				<UButton v-if="states.showErrorBtn" class="mt-2 block" @click="emits('refresh')">Попробовать еще</UButton>
 				<UButton v-if="states.showAccessBtn" class="mt-2 block" @click="emits('refresh', 'buy_access')">Купить</UButton>

@@ -85,10 +85,6 @@ const handleClickItem = async (item: IListSub) => {
 		console.error(err);
 		states.errorText = (err as { data: { error: string } }).data?.error;
 		states.buyLink = (err as { data: { buy_link: string } }).data?.buy_link;
-		// useToast().add({
-		// 	title: '❌' + ((err as { data: { error: string } }).data.error || 'Что-то пошло не так'),
-		// 	close: false,
-		// });
 	} finally {
 		states.loading = false;
 	}

@@ -12,13 +12,8 @@
 
 <style scoped>
 .layout {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
+	max-width: 768px;
 	padding: 0 4px;
-}
-
-.content {
-	flex: 1;
+	margin: 0 auto;
 }
 </style>

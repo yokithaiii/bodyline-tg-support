@@ -20,11 +20,5 @@ export default defineAppConfig({
 				overlay: '!pointer-events-none',
 			},
 		},
-		toast: {
-			slots: {
-				root: '!pointer-events-none !top-4',
-				position: '!top-4',
-			},
-		},
 	},
 });

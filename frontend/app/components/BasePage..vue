@@ -35,6 +35,9 @@ const startWithText = computed(() => {
 					Нажав на кнопку "Купить" вы оформляете подписку на того тренера, которую выбрали!
 				</span>
 			</template>
+			<template v-else>
+				<UButton class="mt-2 block" @click="emits('refresh')">Назад</UButton>
+			</template>
 		</template>
 
 		<template v-else>

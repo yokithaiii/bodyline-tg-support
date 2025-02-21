@@ -64,7 +64,7 @@ const openMarathon = async (item: IListMarathon) => {
 	} catch (err: unknown) {
 		console.error(err);
 		useToast().add({
-			title: '✅' + (err as { data: { error: string } }).data.error || 'Что-то пошло не так',
+			title: '❌' + (err as { data: { error: string } }).data.error || 'Что-то пошло не так',
 			close: false,
 		});
 	} finally {

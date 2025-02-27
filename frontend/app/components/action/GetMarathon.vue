@@ -63,8 +63,9 @@ const openMarathon = async (item: IListMarathon) => {
 		}
 	} catch (err: unknown) {
 		console.error(err);
+		const errText = err as { data: { error: string } };
 		useToast().add({
-			title: '✅' + (err as { data: { error: string } }).data.error || 'Что-то пошло не так',
+			title: errText.data.error.startsWith('Марафон уже открыт') ? '✅ Марафон уже открыт' : `❌ ${errText.data.error}`,
 			close: false,
 		});
 	} finally {

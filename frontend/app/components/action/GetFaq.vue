@@ -84,7 +84,7 @@ const handleUnsubscribe = async () => {
 		const errorMessage = (err as ErrorInterface).data.error || (err as ErrorInterface).data.message;
 
 		useToast().add({
-			title: errorMessage,
+			title: '❌ ' + errorMessage,
 			close: false,
 		});
 	} finally {

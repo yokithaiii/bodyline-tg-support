@@ -54,6 +54,13 @@ const openFaqDetail = async (item: IListFaq) => {
 	}, 1000);
 };
 
+interface ErrorInterface {
+	data: {
+		error?: string;
+		message?: string;
+	};
+}
+
 const loadSlideover = ref(false);
 
 const handleUnsubscribe = async () => {
@@ -74,8 +81,10 @@ const handleUnsubscribe = async () => {
 		}
 	} catch (err) {
 		console.error(err);
+		const errorMessage = (err as ErrorInterface).data.error || (err as ErrorInterface).data.message;
+
 		useToast().add({
-			title: 'Что-то пошло не так',
+			title: errorMessage,
 			close: false,
 		});
 	} finally {

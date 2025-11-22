@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 	app: {
 		rootTag: 'main',
 		head: {
-			title: 'TMA bodyline support',
+			title: 'Bodyline - marathons app',
 			script: [
 				{
 					src: 'https://telegram.org/js/telegram-web-app.js',

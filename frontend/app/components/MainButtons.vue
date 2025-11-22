@@ -68,6 +68,11 @@ const handleUnsubscribe = async () => {
 		return
 	}
 
+	const isConfirmed = confirm('Вы уверены, что хотите отписаться? Это действие нельзя будет отменить.');
+	if (!isConfirmed) {
+		return;
+	}
+
 	loadSlideover.value = true;
 	try {
 		const res = await $fetch<{ message: string }>(useApi() + '/unsubscribe', {

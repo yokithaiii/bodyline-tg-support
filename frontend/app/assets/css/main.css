@@ -110,3 +110,8 @@
 		-webkit-transform: rotate(360deg);
 	}
 }
+
+.custom--docs a {
+	color: #de9f51;
+	font-weight: 500;
+}

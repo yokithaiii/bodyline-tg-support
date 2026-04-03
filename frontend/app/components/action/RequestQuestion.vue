@@ -16,15 +16,14 @@ const handleFileChange = async (e: Event) => {
 	states.uploadingImage = true;
 	try {
 		const formData = new FormData();
-		formData.append('files[]', file);
-		formData.append('folder', 'bugs');
+		formData.append('file', file);
 
-		const res = await $fetch<{ data: { urls: { url: string }[] } }>(useApi() + '/upload', {
+		const res = await $fetch<{ url: string }>(useApi() + '/upload', {
 			method: 'POST',
 			body: formData,
 		});
 
-		states.imageUrl = res.data.urls[0]?.url ?? null;
+		states.imageUrl = res.url ?? null;
 	} catch (err: unknown) {
 		console.error(err);
 		useToast().add({

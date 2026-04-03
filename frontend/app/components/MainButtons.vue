@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BodyModalEmail } from '#components';
+import { BodyModalEmail, BodyModalConfirm } from '#components';
 
 interface IListFaq {
 	question: string;
@@ -48,6 +48,11 @@ const actionButtons = [
 		title: 'Часто задаваемые вопросы ⁉️',
 		state: 'qa',
 	},
+	{
+		id: 4,
+		title: 'Сообщить о баге 🐛',
+		state: 'ask',
+	},
 ];
 
 const slideover = reactive({
@@ -68,37 +73,37 @@ const handleUnsubscribe = async () => {
 		return
 	}
 
-	const isConfirmed = confirm('Вы уверены, что хотите отписаться? Это действие нельзя будет отменить.');
-	if (!isConfirmed) {
-		return;
-	}
-
-	loadSlideover.value = true;
-	try {
-		const res = await $fetch<{ message: string }>(useApi() + '/unsubscribe', {
-			method: 'POST',
-			body: {
-				email: useStore().value.email,
-			},
-		});
-		if (res) {
-			slideover.isOpen = false;
-			useToast().add({
-				title: '✅' + (res.message || 'Успешно!'),
-				close: false,
-			});
-		}
-	} catch (err) {
-		console.error(err);
-		const errorMessage = (err as ErrorInterface).data.error || (err as ErrorInterface).data.message;
-
-		useToast().add({
-			title: '❌ ' + errorMessage,
-			close: false,
-		});
-	} finally {
-		loadSlideover.value = false;
-	}
+	modal.open(BodyModalConfirm, {
+		title: 'Отмена подписки',
+		description: 'Вы уверены, что хотите отписаться? Это действие нельзя будет отменить.',
+		onConfirm: async () => {
+			loadSlideover.value = true;
+			try {
+				const res = await $fetch<{ message: string }>(useApi() + '/unsubscribe', {
+					method: 'POST',
+					body: {
+						email: useStore().value.email,
+					},
+				});
+				if (res) {
+					slideover.isOpen = false;
+					useToast().add({
+						title: '✅' + (res.message || 'Успешно!'),
+						close: false,
+					});
+				}
+			} catch (err) {
+				console.error(err);
+				const errorMessage = (err as ErrorInterface).data.error || (err as ErrorInterface).data.message;
+				useToast().add({
+					title: '❌ ' + errorMessage,
+					close: false,
+				});
+			} finally {
+				loadSlideover.value = false;
+			}
+		},
+	});
 };
 </script>
 

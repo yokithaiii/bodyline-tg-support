@@ -66,7 +66,7 @@ onMounted(() => {
 
 		<div class="absolute bottom-0 ml-auto mr-auto left-0 right-0 bg-emerald-100 dark:bg-zinc-800 p-4">
 			<div class="l-wrapper custom--docs text-sm flex items-center">
-				<h6 class="_text_xxuls_23">Пользуясь ботом, я соглашаюсь с 
+				<h6 class="_text_xxuls_23">Пользуясь приложением, я соглашаюсь с 
 					<a href="https://bodylineapp.com/terms/">пользовательским соглашением</a> и 
 					<a href="https://bodylineapp.com/privacy-policy/">политикой конфиденциальности</a>
 				</h6>
